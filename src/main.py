@@ -4,12 +4,19 @@ import time
 from utils import sanitize_filename, make_content_json_safe
 from api import create_gist, check_api_connection, check_rate_limit
 
+# Define folders to ignore
+IGNORE_FOLDERS = ['__pycache__']
+
 def flatten_and_upload_to_gist(folder_path, output_folder, gist_description, github_token):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     gist_files = {}
     for root, dirs, files in os.walk(folder_path):
+        # Filter out directories to ignore
+        dirs[:] = [d for d in dirs if d not in IGNORE_FOLDERS]
+        
+        print(root)
         for file in files[:3]:  # Limit to first 3 files for testing
             relative_path = os.path.relpath(os.path.join(root, file), folder_path)
             flat_file_name = sanitize_filename(relative_path.replace(os.sep, '_'))
@@ -44,7 +51,7 @@ if __name__ == "__main__":
     folder_path = input(f'Enter the folder path to flatten (default: {current_dir}\\src): ') or os.path.join(current_dir, 'src')
     output_folder = input(f'Enter the output folder path (default: {current_dir}\\output): ') or os.path.join(current_dir, 'output')
     gist_description = input('Enter a description for the Gist (default: py-gist): ') or 'py-gist'
-    github_token = input('Enter your GitHub token: ')
+    github_token = input(f'Enter your GitHub token ({os.environ.get('GITHUB_TOKEN')}): ') or os.environ.get('GITHUB_TOKEN')
 
     # Validate GitHub token
     if not github_token:

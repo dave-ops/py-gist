@@ -11,3 +11,7 @@ converts private github repo into a secret gist repo
 5. click generate token
 6. copy it
 
+## store the api key as env variable 
+```
+set /p GITHUB_TOKEN=<key> 
+```
