@@ -38,14 +38,17 @@ def flatten_and_upload_to_gist(folder_path, output_folder, gist_description, git
         print(gist_url)  # This will contain the error message
 
 if __name__ == "__main__":
-    # Use environment variables
-    folder_path = os.environ.get('FOLDER_PATH', 'C:\\_dev\\repos\\pub-gob\\src')
-    output_folder = os.environ.get('OUTPUT_FOLDER', '.\\output_src')
-    gist_description = os.environ.get('GIST_DESCRIPTION', 'pub-gob')
-    github_token = os.environ.get('GITHUB_TOKEN')
+    current_dir = os.getcwd()
+    
+    # Prompt user for input with default values
+    folder_path = input(f'Enter the folder path to flatten (default: {current_dir}): ') or current_dir
+    output_folder = input(f'Enter the output folder path (default: {current_dir}\\output_src): ') or os.path.join(current_dir, 'output_src')
+    gist_description = input('Enter a description for the Gist (default: py-gist): ') or 'py-gist'
+    github_token = input('Enter your GitHub token: ')
 
+    # Validate GitHub token
     if not github_token:
-        raise ValueError("GITHUB_TOKEN environment variable must be set.")
+        raise ValueError("GitHub token must not be empty.")
 
     print(f'Test GitHub API connection status code: {check_api_connection()}')
     print(f'Rate Limit Status: {check_rate_limit(github_token)}')
