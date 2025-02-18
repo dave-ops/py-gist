@@ -7,6 +7,7 @@ dependencies, and entry points for command-line usage.
 
 from setuptools import setup, find_packages
 
+# Correctly using 'with' to open and read the README.md file
 with open('docs/README.md', encoding='utf-8') as readme_file:
     long_description = readme_file.read()
 
@@ -27,12 +28,11 @@ setup(
         ],
     },
     # Defines entry points for command-line scripts. 'py-gist' command will run the main function from src.main.
-    author='Your Name',
+    author='dave-ops',
     # The author of the package.
     description='Upload files to Github Gist',
     # A brief description of what the package does.
-    long_description=open('docs/README.md', encoding='utf-8').read(),
-    # Reads the content of README.md for a more detailed description of the package, using UTF-8 encoding.
-    long_description_content_type="text/markdown",
+    long_description=long_description,  # Use the variable defined with 'with' statement
     # Specifies that the long description is in Markdown format.
+    long_description_content_type="text/markdown",
 )
