@@ -1,26 +1,31 @@
 # py-gist
-converts private github repo into a secret gist repo
+Converts a private GitHub repository into a secret Gist repository.
 
-## get api key
-1. goto https://github.com/settings/apps
-2. select personal access tokens > fine-grained tokens
-4. select expiration
-5. click generate token
-6. copy it
+## Obtaining a GitHub API Key
+1. Navigate to [GitHub Developer Settings](https://github.com/settings/apps).
+2. Under "Personal access tokens", select **Fine-grained tokens**.
+3. Choose an expiration date for your token.
+4. Click **Generate token**.
+5. **Copy** the generated token securely.
 
-## store the api key as env variable 
+## Storing the API Key as an Environment Variable
+To set the GitHub token as an environment variable in Windows Command Prompt, use:
+```cmd
+set /p GITHUB_TOKEN=<key>
 ```
-set /p GITHUB_TOKEN=<key> 
+For other operating systems, follow the respective method to set environment variables.
+
+## Running the Script
+Execute the script with the following command:
+```
+python src/main.py
 ```
 
-## how to run
-```
-python src\main.py
-```
-
-### demo
-sample run
-```s
+## Demonstration
+Sample Run:
+```sh
+Unwrap
+Copy
 Enter the folder path to flatten: c:\py-gist\src
 Enter the output folder path: c:\py-gist\output
 Enter Project Name for the Gist: py-gist
@@ -35,5 +40,5 @@ Prepared for upload: C:\py-gist\src\utils.py as utils.py
 Attempting to create Gist...
 Gist created successfully!
 
-Gist URL: https://gist.github.com/<userid>/<id>
+Gist URL: https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca
 ```
