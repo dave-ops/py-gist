@@ -1,6 +1,6 @@
 # py-gist
 
-1. **Converts a private GitHub repository** into a secret Gist repository.
+1. Converts a **private GitHub repository** into a **secret Gist repository** with url.
 2. **Supply it with the path** to the source files, and your private GitHub personal access token.
 3. **It will flatten out the folder structure** into single files within an output folder.
 ```
