@@ -37,5 +37,6 @@ Prepared for upload: C:\py-gist\src\main.py as main.py
 Prepared for upload: C:\py-gist\src\utils.py as utils.py
 Attempting to create Gist...
 Gist created successfully!
-Gist URL: [https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca](https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca){target="_blank"}
 ```
+[https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca](https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca)
+
