@@ -1,5 +1,31 @@
 # py-gist
-Converts a private GitHub repository into a secret Gist repository with a public url you can share.
+
+1. **Converts a private GitHub repository** into a secret Gist repository.
+2. **Supply it with the path** to the source files, and your private GitHub personal access token.
+3. **It will flatten out the folder structure** into single files within an output folder.
+
+**Example of a deeply nested code file structure:**
+```
+src/
+├── module1/
+│   ├── sub_module1/
+│   │   └── file1.py
+│   └── file2.py
+└── module2/
+└── file3.py
+```
+
+**Example of flattened result:**
+```
+output/
+├── module1_sub_module1_file1.py
+├── module1_file2.py
+└── module2_file3.py
+```
+
+4. **Upload them to Gist** for secure sharing.
+5. **Return a public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
+
 
 ## Obtaining a GitHub API Key
 1. Navigate to [GitHub Developer Settings](https://github.com/settings/apps).
