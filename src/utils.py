@@ -1,3 +1,4 @@
+import os
 import re
 
 def json_safe(s):
@@ -26,3 +27,21 @@ def make_content_json_safe(content):
 
 def sanitize_filename(filename):
     return re.sub(r'[^\w_.]', '_', filename)
+
+def prompt_user(prompt, default_value, env_var_name):
+    """
+    Prompt the user for input with a default value and set the environment variable.
+
+    :param prompt: The prompt to display to the user
+    :param default_value: The default value if the user doesn't enter anything
+    :param env_var_name: The name of the environment variable to set
+    :return: The user's input or the default value
+    """
+    user_input = input(f'{prompt} (default: {default_value}): ') or default_value
+    os.environ[env_var_name] = user_input
+    return user_input
+
+def validate_github_token(token):
+    """Validate that the GitHub token is not empty."""
+    if not token:
+        raise ValueError("GitHub token must not be empty.")

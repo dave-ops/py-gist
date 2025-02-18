@@ -1,11 +1,17 @@
 import os
 import shutil
 import time
-from utils import sanitize_filename, make_content_json_safe
+from utils import sanitize_filename, make_content_json_safe, prompt_user, validate_github_token
 from api import create_gist, check_api_connection, check_rate_limit
-from constants import (SOURCE_DIR_DEFAULT, OUTPUT_DIR_DEFAULT, PROJECT_NAME_DEFAULT,
-                       IGNORE_FOLDERS, ENV_VAR_SOURCE_DIR, ENV_VAR_OUTPUT_DIR,
-                       ENV_VAR_PROJECT_NAME, ENV_VAR_GITHUB_TOKEN)
+from config import (SOURCE_DIR_DEFAULT, 
+                    OUTPUT_DIR_DEFAULT, 
+                    PROJECT_NAME_DEFAULT,
+                    IGNORE_FOLDERS, 
+                    ENV_VAR_SOURCE_DIR, 
+                    ENV_VAR_OUTPUT_DIR,
+                    ENV_VAR_PROJECT_NAME, 
+                    ENV_VAR_GITHUB_TOKEN
+                    )
 
 def flatten_and_upload_to_gist(folder_path, output_folder, gist_description, github_token):
     if not os.path.exists(output_folder):
@@ -47,22 +53,35 @@ if __name__ == "__main__":
     current_dir = os.getcwd()
     
     # Prompt user for input with default values
-    folder_path = input(f'Enter the folder path to flatten (default: {current_dir}\\{SOURCE_DIR_DEFAULT}): ') or os.path.join(current_dir, SOURCE_DIR_DEFAULT)
-    os.environ[ENV_VAR_SOURCE_DIR] = folder_path
+    folder_path = prompt_user(
+        f'Enter the folder path to flatten', 
+        os.path.join(current_dir, SOURCE_DIR_DEFAULT), 
+        ENV_VAR_SOURCE_DIR
+    )
 
-    output_folder = input(f'Enter the output folder path (default: {current_dir}\\{OUTPUT_DIR_DEFAULT}): ') or os.path.join(current_dir, OUTPUT_DIR_DEFAULT)
-    os.environ[ENV_VAR_OUTPUT_DIR] = output_folder
+    output_folder = prompt_user(
+        f'Enter the output folder path', 
+        os.path.join(current_dir, OUTPUT_DIR_DEFAULT), 
+        ENV_VAR_OUTPUT_DIR
+    )
 
-    gist_description = input(f'Enter a description for the Gist (default: {PROJECT_NAME_DEFAULT}): ') or PROJECT_NAME_DEFAULT
-    os.environ[ENV_VAR_PROJECT_NAME] = gist_description
+    gist_description = prompt_user(
+        f'Enter a description for the Gist', 
+        PROJECT_NAME_DEFAULT, 
+        ENV_VAR_PROJECT_NAME
+    )
 
-    github_token = input(f'Enter your GitHub token ({os.environ.get(ENV_VAR_GITHUB_TOKEN)}): ') or os.environ.get(ENV_VAR_GITHUB_TOKEN)
-    os.environ[ENV_VAR_GITHUB_TOKEN] = github_token
+    github_token = prompt_user(
+        f'Enter your GitHub token', 
+        os.environ.get(ENV_VAR_GITHUB_TOKEN, ''), 
+        ENV_VAR_GITHUB_TOKEN
+    )
 
     # Validate GitHub token
-    if not github_token:
-        raise ValueError("GitHub token must not be empty.")
+    validate_github_token(github_token)
 
+    # Here, you would typically call functions to perform the rest of your script's logic
+    print("Token validation passed. Proceed with your main logic here.")
     print(f'Test GitHub API connection status code: {check_api_connection()}')
     print(f'Rate Limit Status: {check_rate_limit(github_token)}')
 
