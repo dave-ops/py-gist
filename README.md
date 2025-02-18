@@ -12,14 +12,13 @@
    └── module2/
    └── file3.py
 ```
-4. output
+4. **output**
 ```
    output/
    ├── module1_sub_module1_file1.py
    ├── module1_file2.py
    └── module2_file3.py
 ```
-
 5. **Upload them to Gist** for secure sharing.
 6. **Return a public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
 
