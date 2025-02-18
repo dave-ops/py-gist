@@ -3,7 +3,6 @@
 1. **Converts a private GitHub repository** into a secret Gist repository.
 2. **Supply it with the path** to the source files, and your private GitHub personal access token.
 3. **It will flatten out the folder structure** into single files within an output folder.
-   input
 ```
    src/
    ├── module1/
@@ -13,7 +12,7 @@
    └── module2/
    └── file3.py
 ```
-   output
+4. output
 ```
    output/
    ├── module1_sub_module1_file1.py
@@ -21,8 +20,8 @@
    └── module2_file3.py
 ```
 
-4. **Upload them to Gist** for secure sharing.
-5. **Return a public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
+5. **Upload them to Gist** for secure sharing.
+6. **Return a public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
 
 
 ## Obtaining a GitHub API Key
