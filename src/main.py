@@ -1,16 +1,16 @@
 """
 Module for Flattening Directory Structure and Uploading to GitHub Gist
 
-This module contains functions to flatten the directory structure of a specified folder, 
-copy the first 3 files (for testing purposes) into a new flattened structure, and 
-upload these files to a GitHub Gist. It also includes user interaction for configuration 
+This module contains functions to flatten the directory structure of a specified folder,
+copy the first 3 files (for testing purposes) into a new flattened structure, and
+upload these files to a GitHub Gist. It also includes user interaction for configuration
 inputs and performs necessary validations like GitHub token validation.
 
 Functions:
     - flatten_and_upload_to_gist: Flattens a directory and uploads files to a Gist.
 
 Usage:
-    - Run the script directly to prompt for configuration and execute the flattening and 
+    - Run the script directly to prompt for configuration and execute the flattening and
       uploading process.
     - Import the module to use the `flatten_and_upload_to_gist` function in other scripts.
 
@@ -48,16 +48,14 @@ from config import (
     ENV_VAR_GITHUB_TOKEN,
 )
 
+
 def flatten_and_upload_to_gist(
-    folder_path, 
-    output_folder, 
-    gist_description, 
-    github_token
+    folder_path, output_folder, gist_description, github_token
 ):
     """
     Flatten the directory structure of given folder and upload files to a GitHub Gist.
 
-    This function takes a folder, flattens its structure by copying the first 3 files 
+    This function takes a folder, flattens its structure by copying the first 3 files
     (for testing purposes), sanitizes their filenames, and uploads them to a GitHub Gist.
 
     Parameters
@@ -114,11 +112,11 @@ def flatten_and_upload_to_gist(
 
 if __name__ == "__main__":
     """
-    Main execution block for the script. Handles user input for configuration 
+    Main execution block for the script. Handles user input for configuration
     and initiates the process to flatten a directory and upload to GitHub Gist.
 
     This block prompts the user for necessary paths, descriptions, and GitHub token,
-    validates the token, checks the GitHub API connection, and then calls the main 
+    validates the token, checks the GitHub API connection, and then calls the main
     function to flatten and upload files.
     """
     current_dir = os.getcwd()

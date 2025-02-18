@@ -7,6 +7,9 @@ dependencies, and entry points for command-line usage.
 
 from setuptools import setup, find_packages
 
+with open('docs/README.md', encoding='utf-8') as readme_file:
+    long_description = readme_file.read()
+
 setup(
     name='py-gist',
     # The name of the package as it will appear on PyPI.
@@ -28,8 +31,8 @@ setup(
     # The author of the package.
     description='Upload files to Github Gist',
     # A brief description of what the package does.
-    long_description=open('docs/README.md').read(),
-    # Reads the content of README.md for a more detailed description of the package.
+    long_description=open('docs/README.md', encoding='utf-8').read(),
+    # Reads the content of README.md for a more detailed description of the package, using UTF-8 encoding.
     long_description_content_type="text/markdown",
     # Specifies that the long description is in Markdown format.
 )
