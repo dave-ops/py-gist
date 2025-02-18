@@ -78,3 +78,16 @@ Gist created successfully!
 ```
 [https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca](https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca)
 
+### Virtual Environment
+if you need to run in a virtuaL environment
+```cmd
+python -m venv venv --prompt gist
+venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+```bash
+python -m venv venv --prompt gist
+source venv/bin/activate
+pip install -r requirements.txt
+```
