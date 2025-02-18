@@ -18,18 +18,17 @@ Version:
     1.0
 
 Author:
-    Your Name
+    dave-ops
 
 Date:
     2025-02-18
 
 License:
-    MIT
+    GNU
 """
 
 import os
 import shutil
-import time
 from utils import (
     sanitize_filename,
     make_content_json_safe,
@@ -78,11 +77,14 @@ def flatten_and_upload_to_gist(
         os.makedirs(output_folder)
 
     gist_files = {}
+    file_count = 0
     for root, dirs, files in os.walk(folder_path):
         # Filter out directories to ignore
         dirs[:] = [d for d in dirs if d not in IGNORE_FOLDERS]
 
-        for file in files[:3]:  # Limit to first 3 files for testing
+        for file in files:
+            if file_count >= 3:  # Limit to first 3 files for testing
+                break
             relative_path = os.path.relpath(os.path.join(root, file), folder_path)
             flat_file_name = sanitize_filename(relative_path.replace(os.sep, "_"))
             source_path = os.path.join(root, file)
@@ -96,6 +98,7 @@ def flatten_and_upload_to_gist(
                 gist_files[flat_file_name] = {"content": content}
 
             print(f"Prepared for upload: {source_path} as {flat_file_name}")
+            file_count += 1
 
     if not gist_files:
         print("No files were added to the Gist.")
@@ -123,23 +126,23 @@ if __name__ == "__main__":
 
     # Prompt user for input with default values
     folder_path = prompt_user(
-        f"Enter the folder path to flatten",
+        "Enter the folder path to flatten",
         os.path.join(current_dir, SOURCE_DIR_DEFAULT),
         ENV_VAR_SOURCE_DIR,
     )
 
     output_folder = prompt_user(
-        f"Enter the output folder path",
+        "Enter the output folder path",
         os.path.join(current_dir, OUTPUT_DIR_DEFAULT),
         ENV_VAR_OUTPUT_DIR,
     )
 
     gist_description = prompt_user(
-        f"Enter a description for the Gist", PROJECT_NAME_DEFAULT, ENV_VAR_PROJECT_NAME
+        "Enter a description for the Gist", PROJECT_NAME_DEFAULT, ENV_VAR_PROJECT_NAME
     )
 
     github_token = prompt_user(
-        f"Enter your GitHub token",
+        "Enter your GitHub token",
         os.environ.get(ENV_VAR_GITHUB_TOKEN, ""),
         ENV_VAR_GITHUB_TOKEN,
     )
@@ -147,11 +150,14 @@ if __name__ == "__main__":
     # Validate GitHub token
     validate_github_token(github_token)
 
-    # Here, you would typically call functions to perform the rest of your script's logic
-    print("Token validation passed. Proceed with your main logic here.")
+    # Check GitHub API connection
     print(f"Test GitHub API connection status code: {check_api_connection()}")
-    print(f"Rate Limit Status: {check_rate_limit(github_token)}")
+    
+    # Check Rate Limit
+    rate_limit_status = check_rate_limit(github_token)
+    print(f"Rate Limit Status: {rate_limit_status}")
 
+    # Execute the main function
     flatten_and_upload_to_gist(
         folder_path, output_folder, gist_description, github_token
     )
