@@ -16,7 +16,6 @@ def flatten_and_upload_to_gist(folder_path, output_folder, gist_description, git
         # Filter out directories to ignore
         dirs[:] = [d for d in dirs if d not in IGNORE_FOLDERS]
         
-        print(root)
         for file in files[:3]:  # Limit to first 3 files for testing
             relative_path = os.path.relpath(os.path.join(root, file), folder_path)
             flat_file_name = sanitize_filename(relative_path.replace(os.sep, '_'))
