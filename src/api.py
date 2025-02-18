@@ -1,5 +1,7 @@
+import json
 import requests
 import os
+from utils import make_content_json_safe
 
 def create_gist(content, description, github_token):
     url = 'https://api.github.com/gists'
