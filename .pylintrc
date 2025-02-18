@@ -1,12 +1,11 @@
 # .pylintrc
 [MASTER]
-disable =
-    C0114,  # missing-module-docstring
-    C0115,  # missing-class-docstring
-    C0116,  # missing-function-docstring
-    R0903,  # too-few-public-methods
-    R0801,  # duplicate-code
-    W0613   # unused-argument
+# disable =
+#     C0114,  # missing-module-docstring
+#     C0115,  # missing-class-docstring
+#     C0116,  # missing-function-docstring
+#     R0903,  # too-few-public-methods
+#     W0613   # unused-argument
 
 [MESSAGES CONTROL]
 max-line-length = 120

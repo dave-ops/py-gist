@@ -19,10 +19,34 @@ from config import (
     ENV_VAR_GITHUB_TOKEN,
 )
 
-
 def flatten_and_upload_to_gist(
-    folder_path, output_folder, gist_description, github_token
+    folder_path, 
+    output_folder, 
+    gist_description, 
+    github_token
 ):
+    """
+    Flatten the directory structure of given folder and upload files to a GitHub Gist.
+
+    This function takes a folder, flattens its structure by copying the first 3 files 
+    (for testing purposes), sanitizes their filenames, and uploads them to a GitHub Gist.
+
+    Parameters
+    ----------
+    folder_path : str
+        The path to the folder that needs to be flattened and uploaded.
+    output_folder : str
+        The destination path where flattened files will be temporarily stored.
+    gist_description : str
+        A description for the Gist to be created.
+    github_token : str
+        The GitHub token for authentication to create the Gist.
+
+    Returns
+    -------
+    None
+        The function does not return anything but prints the status of the operation.
+    """
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -60,6 +84,14 @@ def flatten_and_upload_to_gist(
 
 
 if __name__ == "__main__":
+    """
+    Main execution block for the script. Handles user input for configuration 
+    and initiates the process to flatten a directory and upload to GitHub Gist.
+
+    This block prompts the user for necessary paths, descriptions, and GitHub token,
+    validates the token, checks the GitHub API connection, and then calls the main 
+    function to flatten and upload files.
+    """
     current_dir = os.getcwd()
 
     # Prompt user for input with default values
