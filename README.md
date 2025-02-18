@@ -22,6 +22,22 @@
 5. **Upload them to Gist** for secure sharing.
 6. **Return a public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
 
+## Project Structure
+```
+py-gist/
+├── src/
+│   ├── __init__.py
+│   ├── api.py
+│   ├── main.py
+│   └── utils.py
+├── .gitignore
+├── LICENSE
+├── README.md
+├── requirements.txt
+├── setup.py
+├── start.bat
+└── start.sh
+```
 
 ## Obtaining a GitHub API Key
 1. Navigate to [GitHub Developer Settings](https://github.com/settings/apps).
