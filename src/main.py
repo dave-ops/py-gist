@@ -41,7 +41,7 @@ if __name__ == "__main__":
     current_dir = os.getcwd()
     
     # Prompt user for input with default values
-    folder_path = input(f'Enter the folder path to flatten (default: {current_dir}): ') or current_dir
+    folder_path = input(f'Enter the folder path to flatten (default: {current_dir}\\src): ') or os.path.join(current_dir, 'src')
     output_folder = input(f'Enter the output folder path (default: {current_dir}\\output): ') or os.path.join(current_dir, 'output')
     gist_description = input('Enter a description for the Gist (default: py-gist): ') or 'py-gist'
     github_token = input('Enter your GitHub token: ')
