@@ -1,5 +1,5 @@
 # py-gist
-Converts a private GitHub repository into a secret Gist repository.
+Converts a private GitHub repository into a secret Gist repository with a public url you can share.
 
 ## Obtaining a GitHub API Key
 1. Navigate to [GitHub Developer Settings](https://github.com/settings/apps).
@@ -24,8 +24,6 @@ python src/main.py
 ## Demonstration
 Sample Run:
 ```sh
-Unwrap
-Copy
 Enter the folder path to flatten: c:\py-gist\src
 Enter the output folder path: c:\py-gist\output
 Enter Project Name for the Gist: py-gist
@@ -39,6 +37,5 @@ Prepared for upload: C:\py-gist\src\main.py as main.py
 Prepared for upload: C:\py-gist\src\utils.py as utils.py
 Attempting to create Gist...
 Gist created successfully!
-
-Gist URL: https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca
+Gist URL: [https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca](https://gist.github.com/dave-ops/1199901fea1e561a5880c4cec06d1bca){target="_blank"}
 ```
