@@ -1,26 +1,24 @@
 # py-gist
+Converts a **Private GitHub Repository** into a **Secret Gist Repository** with a **public url**.
 
-1. Converts a **private GitHub repository** into a **secret Gist repository** with url.
-2. **Supply it with the path** to the source files, and your private GitHub personal access token.
-3. **It will flatten out the folder structure** into single files within an output folder.
+## Flow
+1. Enter **Source Folder** of the directory containing the source files
+2. Enter **Output Path** of the directory the outputted files will go
+3. Enter **Github Project Name** this will be used in your url
+4. Enter **Github Personal Access Key**
+5. Job will **It will flatten out the folder structure** into single files within an output folder.
+6. Upload output to **Gist** for secure sharing.
+7. Returns a **Public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
+
+## Installation
+To install `py-gist`, you need Python 3.6 or later. Run the following command in your command prompt or terminal:
+
+```bash
+pip install -e .
+python setup.py sdist
+pip install dist/py-gist-0.1.0.tar.gz
 ```
-   src/
-   ├── module1/
-   │   ├── sub_module1/
-   │   │   └── file1.py
-   │   └── file2.py
-   └── module2/
-   └── file3.py
-```
-4. **output**
-```
-   output/
-   ├── module1_sub_module1_file1.py
-   ├── module1_file2.py
-   └── module2_file3.py
-```
-5. **Upload them to Gist** for secure sharing.
-6. **Return a public URL** that you can share without needing to grant access to your private GitHub repository or making it public.
+
 
 ## Project Structure
 ```

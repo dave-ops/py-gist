@@ -49,7 +49,7 @@ def flatten_and_upload_to_gist(folder_path, output_folder, gist_description, git
     else:
         print(gist_url)  # This will contain the error message
 
-if __name__ == "__main__":
+def main():
     current_dir = os.getcwd()
     
     # Prompt user for input with default values
@@ -82,7 +82,6 @@ if __name__ == "__main__":
 
     # Here, you would typically call functions to perform the rest of your script's logic
     print("Token validation passed. Proceed with your main logic here.")
-    print(f'Test GitHub API connection status code: {check_api_connection()}')
-    print(f'Rate Limit Status: {check_rate_limit(github_token)}')
 
-    flatten_and_upload_to_gist(folder_path, output_folder, gist_description, github_token)
+if __name__ == "__main__":
+    main()

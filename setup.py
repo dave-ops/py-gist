@@ -1,19 +1,27 @@
+# setup.py
 from setuptools import setup, find_packages
 
 setup(
     name='py-gist',
-    version='0.1',
-    packages=find_packages(include=['src', 'src.*']),
-    install_requires=[
-        'requests',
-    ],
+    version='0.1.0',
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
     entry_points={
         'console_scripts': [
-            'py-gist=src.main:main',
+            'py-gist=main:main',
         ],
     },
-    author='Your Name',
-    description='Upload files to GitHub Gist',
-    long_description=open('docs/README.md').read(),
-    long_description_content_type="text/markdown",
+    install_requires=[],
+    author='dave-ops',
+    author_email='daveops@codeforge.cc',
+    description='A tool to convert a private GitHub repo into a secret Gist repo',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    url='https://github.com/dave-ops/py-gist',
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+    ],
+    python_requires='>=3.6',
 )
