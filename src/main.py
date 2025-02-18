@@ -1,3 +1,32 @@
+"""
+Module for Flattening Directory Structure and Uploading to GitHub Gist
+
+This module contains functions to flatten the directory structure of a specified folder, 
+copy the first 3 files (for testing purposes) into a new flattened structure, and 
+upload these files to a GitHub Gist. It also includes user interaction for configuration 
+inputs and performs necessary validations like GitHub token validation.
+
+Functions:
+    - flatten_and_upload_to_gist: Flattens a directory and uploads files to a Gist.
+
+Usage:
+    - Run the script directly to prompt for configuration and execute the flattening and 
+      uploading process.
+    - Import the module to use the `flatten_and_upload_to_gist` function in other scripts.
+
+Version:
+    1.0
+
+Author:
+    Your Name
+
+Date:
+    2025-02-18
+
+License:
+    MIT
+"""
+
 import os
 import shutil
 import time
