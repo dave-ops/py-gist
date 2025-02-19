@@ -32,13 +32,11 @@ import os
 import shutil
 import config
 import inputs
+from api import create_gist
 from utils import (
     sanitize_filename,
     make_content_json_safe,
-    prompt_user,
-    validate_github_token,
 )
-from api import create_gist, check_api_connection, check_rate_limit
 
 
 def flatten(folder_path, output_folder):
