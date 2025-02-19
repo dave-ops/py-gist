@@ -29,6 +29,7 @@ License:
 
 import os
 import shutil
+import config
 from utils import (
     sanitize_filename,
     make_content_json_safe,
@@ -36,17 +37,6 @@ from utils import (
     validate_github_token,
 )
 from api import create_gist, check_api_connection, check_rate_limit
-from config import (
-    SOURCE_DIR_DEFAULT,
-    OUTPUT_DIR_DEFAULT,
-    PROJECT_NAME_DEFAULT,
-    IGNORE_FOLDERS,
-    ENV_VAR_SOURCE_DIR,
-    ENV_VAR_OUTPUT_DIR,
-    ENV_VAR_PROJECT_NAME,
-    ENV_VAR_GITHUB_TOKEN,
-)
-
 
 def flatten_and_upload_to_gist(
     folder_path, output_folder, gist_description, github_token
@@ -80,7 +70,7 @@ def flatten_and_upload_to_gist(
     file_count = 0
     for root, dirs, files in os.walk(folder_path):
         # Filter out directories to ignore
-        dirs[:] = [d for d in dirs if d not in IGNORE_FOLDERS]
+        dirs[:] = [d for d in dirs if d not in config.IGNORE_FOLDERS]
 
         for file in files:
             if file_count >= 3:  # Limit to first 3 files for testing
@@ -127,24 +117,26 @@ if __name__ == "__main__":
     # Prompt user for input with default values
     folder_path = prompt_user(
         "Enter the folder path to flatten",
-        os.path.join(current_dir, SOURCE_DIR_DEFAULT),
-        ENV_VAR_SOURCE_DIR,
+        os.path.join(current_dir, config.SOURCE_DIR_DEFAULT),
+        config.ENV_VAR_SOURCE_DIR,
     )
 
     output_folder = prompt_user(
         "Enter the output folder path",
-        os.path.join(current_dir, OUTPUT_DIR_DEFAULT),
-        ENV_VAR_OUTPUT_DIR,
+        os.path.join(current_dir, config.OUTPUT_DIR_DEFAULT),
+        config.ENV_VAR_OUTPUT_DIR,
     )
 
     gist_description = prompt_user(
-        "Enter a description for the Gist", PROJECT_NAME_DEFAULT, ENV_VAR_PROJECT_NAME
+        "Enter a description for the Gist", 
+        config.PROJECT_NAME_DEFAULT, 
+        config.ENV_VAR_PROJECT_NAME
     )
 
     github_token = prompt_user(
         "Enter your GitHub token",
-        os.environ.get(ENV_VAR_GITHUB_TOKEN, ""),
-        ENV_VAR_GITHUB_TOKEN,
+        os.environ.get(config.ENV_VAR_GITHUB_TOKEN, ""),
+        config.ENV_VAR_GITHUB_TOKEN,
     )
 
     # Validate GitHub token
