@@ -2,7 +2,7 @@
 Configuration settings for the py-gist project.
 
 This module defines default values for source and output directories, project name,
-ignored folders, and environment variable names. It also includes a utility function 
+ignored folders, and environment variable names. It also includes a utility function
 to retrieve environment variables with fallback to default values.
 """
 

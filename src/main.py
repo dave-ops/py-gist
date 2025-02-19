@@ -38,6 +38,7 @@ from utils import (
 )
 from api import create_gist, check_api_connection, check_rate_limit
 
+
 def flatten_and_upload_to_gist(
     folder_path, output_folder, gist_description, github_token
 ):
@@ -128,9 +129,9 @@ if __name__ == "__main__":
     )
 
     gist_description = prompt_user(
-        "Enter a description for the Gist", 
-        config.PROJECT_NAME_DEFAULT, 
-        config.ENV_VAR_PROJECT_NAME
+        "Enter a description for the Gist",
+        config.PROJECT_NAME_DEFAULT,
+        config.ENV_VAR_PROJECT_NAME,
     )
 
     github_token = prompt_user(
@@ -144,7 +145,7 @@ if __name__ == "__main__":
 
     # Check GitHub API connection
     print(f"Test GitHub API connection status code: {check_api_connection()}")
-    
+
     # Check Rate Limit
     rate_limit_status = check_rate_limit(github_token)
     print(f"Rate Limit Status: {rate_limit_status}")
