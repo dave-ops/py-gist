@@ -154,14 +154,7 @@ def flatten_and_upload_to_gist(user_inputs):
 
 
 if __name__ == "__main__":
-    """
-    Main execution block for the script. Handles user input for configuration
-    and initiates the process to flatten a directory and upload to GitHub Gist.
 
-    This block prompts the user for necessary paths, descriptions, and GitHub token,
-    validates the token, checks the GitHub API connection, and then calls the main
-    function to flatten and upload files.
-    """
     # Assuming inputs.execute returns a dictionary with the required keys
     config_inputs = inputs.execute(os.getcwd())
 
