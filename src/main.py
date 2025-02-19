@@ -114,11 +114,13 @@ if __name__ == "__main__":
     validates the token, checks the GitHub API connection, and then calls the main
     function to flatten and upload files.
     """
-    responses = inputs.execute(os.getcwd())
+    # Assuming inputs.execute returns a dictionary with the required keys
+    user_inputs = inputs.execute(os.getcwd())
 
+    # Directly unpack the dictionary to call the function
     flatten_and_upload_to_gist(
-        responses["folder_path"],
-        responses["output_folder"],
-        responses["gist_description"],
-        responses["github_token"],
+        user_inputs["folder_path"],
+        user_inputs["output_folder"],
+        user_inputs["gist_description"],
+        user_inputs["github_token"],
     )

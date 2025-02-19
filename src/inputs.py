@@ -1,3 +1,28 @@
+"""
+Module for Handling User Inputs and Configurations
+
+This module manages the interaction with the user to gather necessary configuration inputs
+for the GitHub Gist upload process. It includes functions to prompt for user input, validate
+GitHub tokens, and perform preliminary checks on the GitHub API connection and rate limits.
+
+Functions:
+    - execute: Collects user inputs, validates them, and performs API checks.
+
+Dependencies:
+    - config: For configuration defaults and environment variable names.
+    - utils: For utility functions like prompt_user and validate_github_token.
+    - api: For functions to check GitHub API connection and rate limit.
+
+Author:
+    dave-ops
+
+Date:
+    2025-02-18
+
+License:
+    GNU
+"""
+
 import os
 import config
 from utils import (
@@ -15,7 +40,32 @@ response_dict = {
 
 
 def execute(root):
+    """
+    Execute the user input collection process, including validation and API checks.
 
+    This function prompts the user for configuration inputs related to the directory to flatten,
+    output directory, Gist description, and GitHub token. It then validates the GitHub token
+    and checks the GitHub API connection status and rate limit.
+
+    Parameters
+    ----------
+    root : str
+        The root directory from which default paths are constructed.
+
+    Returns
+    -------
+    dict
+        A dictionary containing:
+        - 'folder_path': Path to the folder to be flattened.
+        - 'output_folder': Path where the flattened files will be stored.
+        - 'gist_description': Description for the Gist.
+        - 'github_token': GitHub token for authentication.
+
+    Raises
+    ------
+    ValueError
+        If the GitHub token validation fails.
+    """
     # Prompt user for input with default values
     response_dict["folder_path"] = prompt_user(
         "Enter the folder path to flatten",
