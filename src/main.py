@@ -165,7 +165,7 @@ if __name__ == "__main__":
     function to flatten and upload files.
     """
     # Assuming inputs.execute returns a dictionary with the required keys
-    user_inputs = inputs.execute(os.getcwd())
+    config_inputs = inputs.execute(os.getcwd())
 
     # run and upload
-    flatten_and_upload_to_gist(user_inputs)
+    flatten_and_upload_to_gist(config_inputs)
