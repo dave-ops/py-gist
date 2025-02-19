@@ -7,12 +7,13 @@ upload these files to a GitHub Gist. It also includes user interaction for confi
 inputs and performs necessary validations like GitHub token validation.
 
 Functions:
-    - flatten_and_upload_to_gist: Flattens a directory and uploads files to a Gist.
+    - flatten: Flattens the directory structure by copying and sanitizing files.
+    - upload_to_gist: Uploads the flattened files to a GitHub Gist.
 
 Usage:
     - Run the script directly to prompt for configuration and execute the flattening and
       uploading process.
-    - Import the module to use the `flatten_and_upload_to_gist` function in other scripts.
+    - Import the module to use the `flatten` and `upload_to_gist` functions in other scripts.
 
 Version:
     1.0
@@ -40,28 +41,26 @@ from utils import (
 from api import create_gist, check_api_connection, check_rate_limit
 
 
-def flatten_and_upload_to_gist(user_inputs):
+def flatten(folder_path, output_folder):
     """
-    Flatten the directory structure of given folder and upload files to a GitHub Gist.
+    Flatten the directory structure of the given folder.
 
-    This function takes a folder, flattens its structure by copying the first 3 files
-    (for testing purposes), sanitizes their filenames, and uploads them to a GitHub Gist.
+    This function walks through the specified folder, copies the first 3 files (for testing purposes),
+    sanitizes their filenames, and places them into a new flattened structure in the output folder.
 
     Parameters
     ----------
-    user_inputs : dict<str>
+    folder_path : str
+        The path to the folder that needs to be flattened.
+    output_folder : str
+        The destination path where flattened files will be temporarily stored.
 
     Returns
     -------
-    None
-        The function does not return anything but prints the status of the operation.
+    dict
+        A dictionary where keys are the flattened filenames and values are dictionaries
+        containing the 'content' of each file.
     """
-
-    folder_path = user_inputs["folder_path"]
-    output_folder = user_inputs["output_folder"]
-    gist_description = user_inputs["gist_description"]
-    github_token = user_inputs["github_token"]
-
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -89,6 +88,30 @@ def flatten_and_upload_to_gist(user_inputs):
             print(f"Prepared for upload: {source_path} as {flat_file_name}")
             file_count += 1
 
+    return gist_files
+
+
+def upload_to_gist(gist_files, gist_description, github_token):
+    """
+    Upload the flattened files to a GitHub Gist.
+
+    This function takes the prepared files and uploads them to a GitHub Gist using the provided
+    description and GitHub token for authentication.
+
+    Parameters
+    ----------
+    gist_files : dict
+        A dictionary containing the flattened filenames as keys and dictionaries with 'content' as values.
+    gist_description : str
+        A description for the Gist to be created.
+    github_token : str
+        The GitHub token for authentication to create the Gist.
+
+    Returns
+    -------
+    None
+        The function does not return anything but prints the status of the operation.
+    """
     if not gist_files:
         print("No files were added to the Gist.")
         return
@@ -100,6 +123,36 @@ def flatten_and_upload_to_gist(user_inputs):
         print(f"Gist URL: {gist_url}")
     else:
         print(gist_url)  # This will contain the error message
+
+
+def flatten_and_upload_to_gist(user_inputs):
+    """
+    Orchestrates the process of flattening a directory and uploading to GitHub Gist.
+
+    This function uses the provided user inputs to flatten a directory structure and then upload
+    the resulting files to a GitHub Gist.
+
+    Parameters
+    ----------
+    user_inputs : dict
+        A dictionary containing:
+        - 'folder_path': Path to the folder to be flattened.
+        - 'output_folder': Path where the flattened files will be stored.
+        - 'gist_description': Description for the Gist.
+        - 'github_token': GitHub token for authentication.
+
+    Returns
+    -------
+    None
+        The function does not return anything but prints the status of the operation.
+    """
+    folder_path = user_inputs["folder_path"]
+    output_folder = user_inputs["output_folder"]
+    gist_description = user_inputs["gist_description"]
+    github_token = user_inputs["github_token"]
+
+    gist_files = flatten(folder_path, output_folder)
+    upload_to_gist(gist_files, gist_description, github_token)
 
 
 if __name__ == "__main__":
