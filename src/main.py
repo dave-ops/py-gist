@@ -40,9 +40,7 @@ from utils import (
 from api import create_gist, check_api_connection, check_rate_limit
 
 
-def flatten_and_upload_to_gist(
-    folder_path, output_folder, gist_description, github_token
-):
+def flatten_and_upload_to_gist(user_inputs):
     """
     Flatten the directory structure of given folder and upload files to a GitHub Gist.
 
@@ -51,20 +49,19 @@ def flatten_and_upload_to_gist(
 
     Parameters
     ----------
-    folder_path : str
-        The path to the folder that needs to be flattened and uploaded.
-    output_folder : str
-        The destination path where flattened files will be temporarily stored.
-    gist_description : str
-        A description for the Gist to be created.
-    github_token : str
-        The GitHub token for authentication to create the Gist.
+    user_inputs : dict<str>
 
     Returns
     -------
     None
         The function does not return anything but prints the status of the operation.
     """
+
+    folder_path = user_inputs["folder_path"]
+    output_folder = user_inputs["output_folder"]
+    gist_description = user_inputs["gist_description"]
+    github_token = user_inputs["github_token"]
+
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -117,10 +114,5 @@ if __name__ == "__main__":
     # Assuming inputs.execute returns a dictionary with the required keys
     user_inputs = inputs.execute(os.getcwd())
 
-    # Directly unpack the dictionary to call the function
-    flatten_and_upload_to_gist(
-        user_inputs["folder_path"],
-        user_inputs["output_folder"],
-        user_inputs["gist_description"],
-        user_inputs["github_token"],
-    )
+    # run and upload
+    flatten_and_upload_to_gist(user_inputs)
