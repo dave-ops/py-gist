@@ -1,37 +1,76 @@
+"""
+Module for Flattening Directory Structure and Uploading to GitHub Gist
+
+This module contains functions to flatten the directory structure of a specified folder,
+copy the first 3 files (for testing purposes) into a new flattened structure, and
+upload these files to a GitHub Gist. It also includes user interaction for configuration
+inputs and performs necessary validations like GitHub token validation.
+
+Functions:
+    - flatten: Flattens the directory structure by copying and sanitizing files.
+    - upload_to_gist: Uploads the flattened files to a GitHub Gist.
+
+Usage:
+    - Run the script directly to prompt for configuration and execute the flattening and
+      uploading process.
+    - Import the module to use the `flatten` and `upload_to_gist` functions in other scripts.
+
+Version:
+    1.0
+
+Author:
+    dave-ops
+
+Date:
+    2025-02-18
+
+License:
+    GNU
+"""
+
 import os
 import shutil
-import time
+import config
+import inputs
+from api import create_gist
 from utils import (
     sanitize_filename,
     make_content_json_safe,
-    prompt_user,
-    validate_github_token,
-)
-from api import create_gist, check_api_connection, check_rate_limit
-from config import (
-    SOURCE_DIR_DEFAULT,
-    OUTPUT_DIR_DEFAULT,
-    PROJECT_NAME_DEFAULT,
-    IGNORE_FOLDERS,
-    ENV_VAR_SOURCE_DIR,
-    ENV_VAR_OUTPUT_DIR,
-    ENV_VAR_PROJECT_NAME,
-    ENV_VAR_GITHUB_TOKEN,
 )
 
 
-def flatten_and_upload_to_gist(
-    folder_path, output_folder, gist_description, github_token
-):
+def flatten(folder_path, output_folder):
+    """
+    Flatten the directory structure of the given folder.
+
+    This function walks through the specified folder, copies the first 3 files (for testing purposes),
+    sanitizes their filenames, and places them into a new flattened structure in the output folder.
+
+    Parameters
+    ----------
+    folder_path : str
+        The path to the folder that needs to be flattened.
+    output_folder : str
+        The destination path where flattened files will be temporarily stored.
+
+    Returns
+    -------
+    dict
+        A dictionary where keys are the flattened filenames and values are dictionaries
+        containing the 'content' of each file.
+    """
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     gist_files = {}
+    file_count = 0
     for root, dirs, files in os.walk(folder_path):
         # Filter out directories to ignore
-        dirs[:] = [d for d in dirs if d not in IGNORE_FOLDERS]
+        dirs[:] = [d for d in dirs if d not in config.IGNORE_FOLDERS]
 
-        for file in files[:3]:  # Limit to first 3 files for testing
+        for file in files:
+            if file_count >= 3:  # Limit to first 3 files for testing
+                break
             relative_path = os.path.relpath(os.path.join(root, file), folder_path)
             flat_file_name = sanitize_filename(relative_path.replace(os.sep, "_"))
             source_path = os.path.join(root, file)
@@ -45,7 +84,32 @@ def flatten_and_upload_to_gist(
                 gist_files[flat_file_name] = {"content": content}
 
             print(f"Prepared for upload: {source_path} as {flat_file_name}")
+            file_count += 1
 
+    return gist_files
+
+
+def upload_to_gist(gist_files, gist_description, github_token):
+    """
+    Upload the flattened files to a GitHub Gist.
+
+    This function takes the prepared files and uploads them to a GitHub Gist using the provided
+    description and GitHub token for authentication.
+
+    Parameters
+    ----------
+    gist_files : dict
+        A dictionary containing the flattened filenames as keys and dictionaries with 'content' as values.
+    gist_description : str
+        A description for the Gist to be created.
+    github_token : str
+        The GitHub token for authentication to create the Gist.
+
+    Returns
+    -------
+    None
+        The function does not return anything but prints the status of the operation.
+    """
     if not gist_files:
         print("No files were added to the Gist.")
         return
@@ -59,40 +123,40 @@ def flatten_and_upload_to_gist(
         print(gist_url)  # This will contain the error message
 
 
+def flatten_and_upload_to_gist(user_inputs):
+    """
+    Orchestrates the process of flattening a directory and uploading to GitHub Gist.
+
+    This function uses the provided user inputs to flatten a directory structure and then upload
+    the resulting files to a GitHub Gist.
+
+    Parameters
+    ----------
+    user_inputs : dict
+        A dictionary containing:
+        - 'folder_path': Path to the folder to be flattened.
+        - 'output_folder': Path where the flattened files will be stored.
+        - 'gist_description': Description for the Gist.
+        - 'github_token': GitHub token for authentication.
+
+    Returns
+    -------
+    None
+        The function does not return anything but prints the status of the operation.
+    """
+    folder_path = user_inputs["folder_path"]
+    output_folder = user_inputs["output_folder"]
+    gist_description = user_inputs["gist_description"]
+    github_token = user_inputs["github_token"]
+
+    gist_files = flatten(folder_path, output_folder)
+    upload_to_gist(gist_files, gist_description, github_token)
+
+
 if __name__ == "__main__":
-    current_dir = os.getcwd()
 
-    # Prompt user for input with default values
-    folder_path = prompt_user(
-        f"Enter the folder path to flatten",
-        os.path.join(current_dir, SOURCE_DIR_DEFAULT),
-        ENV_VAR_SOURCE_DIR,
-    )
+    # Assuming inputs.execute returns a dictionary with the required keys
+    config_inputs = inputs.execute(os.getcwd())
 
-    output_folder = prompt_user(
-        f"Enter the output folder path",
-        os.path.join(current_dir, OUTPUT_DIR_DEFAULT),
-        ENV_VAR_OUTPUT_DIR,
-    )
-
-    gist_description = prompt_user(
-        f"Enter a description for the Gist", PROJECT_NAME_DEFAULT, ENV_VAR_PROJECT_NAME
-    )
-
-    github_token = prompt_user(
-        f"Enter your GitHub token",
-        os.environ.get(ENV_VAR_GITHUB_TOKEN, ""),
-        ENV_VAR_GITHUB_TOKEN,
-    )
-
-    # Validate GitHub token
-    validate_github_token(github_token)
-
-    # Here, you would typically call functions to perform the rest of your script's logic
-    print("Token validation passed. Proceed with your main logic here.")
-    print(f"Test GitHub API connection status code: {check_api_connection()}")
-    print(f"Rate Limit Status: {check_rate_limit(github_token)}")
-
-    flatten_and_upload_to_gist(
-        folder_path, output_folder, gist_description, github_token
-    )
+    # run and upload
+    flatten_and_upload_to_gist(config_inputs)
